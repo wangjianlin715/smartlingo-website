@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灵犀翻译 SmartLingo Translate - 实时屏幕翻译软件</title>
+    <meta name="description" content="灵犀翻译 - 鼠标悬停即可翻译英文界面，支持普通/范围/截图三种翻译模式，本地词典零延迟+在线翻译记忆，越用越流畅">
+    <meta name="keywords" content="屏幕翻译,实时翻译,英文翻译,软件汉化,OCR翻译,灵犀翻译,SmartLingo">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif; color: #333; background: #f8f9fa; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; }
+
+        /* Header */
+        .header { background: linear-gradient(135deg, #1565C0 0%, #0D47A1 50%, #1A237E 100%); color: #fff; padding: 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area img { height: 40px; }
+        .logo-text { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+        .logo-sub { font-size: 12px; opacity: 0.8; margin-left: 8px; }
+        .nav { display: flex; gap: 28px; }
+        .nav a { color: rgba(255,255,255,0.9); font-size: 15px; transition: color 0.2s; }
+        .nav a:hover { color: #FFD54F; }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #0D47A1 0%, #1565C0 40%, #1976D2 100%); color: #fff; text-align: center; padding: 80px 24px 60px; position: relative; overflow: hidden; }
+        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); position: relative; z-index: 2; }
+        .hero .tagline { font-size: 22px; opacity: 0.95; margin-bottom: 12px; font-weight: 300; position: relative; z-index: 2; }
+        .hero .sub-tagline { font-size: 16px; opacity: 0.8; margin-bottom: 36px; position: relative; z-index: 2; }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 2; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 36px; border-radius: 8px; font-size: 17px; font-weight: 600; transition: all 0.25s; cursor: pointer; border: none; }
+        .btn-primary { background: #FF6F00; color: #fff; box-shadow: 0 4px 16px rgba(255,111,0,0.35); }
+        .btn-primary:hover { background: #E65100; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,111,0,0.45); }
+        .btn-secondary { background: rgba(255,255,255,0.15); color: #fff; border: 2px solid rgba(255,255,255,0.4); backdrop-filter: blur(4px); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+        .version-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-top: 20px; position: relative; z-index: 2; }
+
+        /* Section common */
+        .section { max-width: 1200px; margin: 0 auto; padding: 60px 24px; }
+        .section-title { text-align: center; font-size: 32px; font-weight: 700; color: #1A237E; margin-bottom: 12px; }
+        .section-desc { text-align: center; font-size: 16px; color: #666; margin-bottom: 48px; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        /* Features - 5 items in 2 rows: 3+2 centered */
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .feature-card { background: #fff; border-radius: 12px; padding: 32px 24px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: transform 0.25s, box-shadow 0.25s; }
+        .feature-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .feature-icon { font-size: 48px; margin-bottom: 16px; }
+        .feature-card h3 { font-size: 20px; color: #1565C0; margin-bottom: 10px; }
+        .feature-card p { font-size: 14px; color: #666; line-height: 1.7; }
+
+        /* Screenshots */
+        .screenshots { background: #fff; }
+        .screenshots .section { padding: 60px 24px; }
+        .screenshot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        .screenshot-item { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s; }
+        .screenshot-item:hover { transform: scale(1.02); }
+        .screenshot-item img { width: 100%; display: block; }
+        .screenshot-label { padding: 14px 20px; background: #f5f7fa; font-size: 14px; color: #555; text-align: center; font-weight: 500; }
+
+        /* How it works */
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .step-card { text-align: center; }
+        .step-num { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #1565C0, #1976D2); color: #fff; font-size: 24px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+        .step-card h3 { font-size: 18px; color: #333; margin-bottom: 8px; }
+        .step-card p { font-size: 14px; color: #666; }
+
+        /* Download */
+        .download { background: linear-gradient(135deg, #0D47A1, #1565C0); color: #fff; text-align: center; }
+        .download .section-title { color: #fff; }
+        .download .section-desc { color: rgba(255,255,255,0.8); }
+        .download-info { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 32px; max-width: 600px; margin: 0 auto; backdrop-filter: blur(8px); }
+        .download-info .file-size { font-size: 14px; opacity: 0.8; margin-top: 8px; }
+        .download-info .os-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 13px; margin: 12px 8px 0 0; }
+        .download-notice { font-size: 13px; opacity: 0.7; margin-top: 20px; line-height: 1.8; }
+
+        /* Contact / Footer */
+        .footer { background: #1A237E; color: rgba(255,255,255,0.8); padding: 40px 24px 24px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
+        .footer-brand { max-width: 400px; }
+        .footer-brand img { height: 32px; margin-bottom: 12px; }
+        .footer-brand p { font-size: 13px; line-height: 1.8; }
+        .footer-qr { text-align: center; }
+        .footer-qr img { width: 140px; height: 140px; border-radius: 8px; border: 3px solid rgba(255,255,255,0.3); }
+        .footer-qr p { font-size: 13px; margin-top: 8px; }
+        .footer-bottom { max-width: 1200px; margin: 24px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center; font-size: 12px; opacity: 0.6; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .hero .tagline { font-size: 18px; }
+            .features-grid, .steps-grid { grid-template-columns: 1fr; }
+            .screenshot-grid { grid-template-columns: 1fr; }
+            .nav { display: none; }
+            .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-inner">
+        <div class="logo-area">
+            <img src="images/logo.png" alt="灵犀翻译">
+            <span class="logo-text">灵犀翻译</span>
+            <span class="logo-sub">SmartLingo Translate</span>
+        </div>
+        <nav class="nav">
+            <a href="#features">功能特性</a>
+            <a href="#screenshots">效果展示</a>
+            <a href="#how-it-works">使用方法</a>
+            <a href="#download">立即下载</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <h1>鼠标悬停，英文秒译中文</h1>
+    <p class="tagline">专为英文软件界面设计的实时屏幕翻译工具</p>
+    <p class="sub-tagline">本地词典零延迟 + 在线翻译记忆，越用越流畅</p>
+    <div class="hero-buttons">
+        <a href="https://github.com/SmartLingo-Translate/smartlingo-website/releases/download/v2.3/SmartLingo.Translate.exe" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            免费下载
+        </a>
+        <a href="#features" class="btn btn-secondary">了解更多</a>
+    </div>
+    <div class="version-badge">v2.3 | Windows</div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+    <h2 class="section-title">功能特性</h2>
+    <p class="section-desc">三大翻译模式 + 本地词典 + 在线记忆，覆盖所有英文界面翻译场景</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">&#128433;</div>
+            <h3>悬停即译</h3>
+            <p>鼠标悬停在英文界面上，实时翻译为中文显示。无需复制粘贴，所见即所译，零操作成本。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128208;</div>
+            <h3>范围识别</h3>
+            <p>框选识别区域，精准翻译多行文本。识别框大小可自定义调整，适配不同软件界面布局。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128248;</div>
+            <h3>截图翻译</h3>
+            <p>拖拽框选屏幕任意区域，截图后自动OCR识别并翻译。适合翻译图片、文档中的英文内容。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#9889;</div>
+            <h3>本地词典零延迟</h3>
+            <p>内置本地词典，常用词汇即时翻译无网络延迟。专业术语覆盖软件、技术、工程等领域。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#129504;</div>
+            <h3>在线翻译记忆</h3>
+            <p>在线翻译结果自动缓存为本地记忆，相同内容再次出现时直接命中，越用越快越准确。</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">&#128209;</div>
+            <h3>识别范围自定义</h3>
+            <p>识别框大小和位置可自由拖拽调整，精准框选需要翻译的区域，避免无关内容干扰翻译结果。</p>
+        </div>
+    </div>
+</section>
+
+<!-- Screenshots -->
+<section class="screenshots" id="screenshots">
+    <div class="section">
+        <h2 class="section-title">效果展示</h2>
+        <p class="section-desc">真实使用场景，英文软件界面一键翻译为中文</p>
+        <div class="screenshot-grid">
+            <div class="screenshot-item">
+                <img src="images/main-ui.png" alt="软件主界面">
+                <div class="screenshot-label">软件主界面 - 轻巧简洁，一目了然</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/about-ui.png" alt="软件说明及激活界面">
+                <div class="screenshot-label">软件说明及激活界面</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/translate1.png" alt="隐藏识别框模式翻译">
+                <div class="screenshot-label">应用界面翻译 - 隐藏识别框模式（纯净无干扰）</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/translate2.png" alt="打开识别框模式翻译">
+                <div class="screenshot-label">应用界面翻译 - 打开识别框模式（可视化识别区域）</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/translate3.png" alt="识别框自定义调整">
+                <div class="screenshot-label">应用界面翻译 - 识别框大小自定义调整</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/screenshot.png" alt="截图翻译">
+                <div class="screenshot-label">截图翻译 - 框选区域即可翻译</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How it works -->
+<section class="section" id="how-it-works">
+    <h2 class="section-title">三步开始使用</h2>
+    <p class="section-desc">下载即用，无需配置，无需联网即可翻译常用词汇</p>
+    <div class="steps-grid">
+        <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>下载安装</h3>
+            <p>下载 SmartLingo Translate.exe，双击运行即可，无需安装。首次运行可选择激活获取完整功能。</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>悬停翻译</h3>
+            <p>打开任意英文软件，将鼠标悬停在英文文字上，翻译结果即时显示在鼠标旁的悬浮窗中。</p>
+        </div>
+        <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>切换模式</h3>
+            <p>按 F9 开关翻译，F8 截图翻译。可在控制面板切换普通/范围/截图模式，调整字号和识别框大小。</p>
+        </div>
+    </div>
+</section>
+
+<!-- Download -->
+<section class="download" id="download">
+    <div class="section">
+        <h2 class="section-title">立即下载</h2>
+        <p class="section-desc">单文件绿色版，无需安装，双击即用</p>
+        <div class="download-info">
+            <a href="https://github.com/SmartLingo-Translate/smartlingo-website/releases/download/v2.3/SmartLingo.Translate.exe" class="btn btn-primary" style="font-size:20px; padding:16px 48px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                下载 SmartLingo Translate v2.3
+            </a>
+            <div class="file-size">文件大小：约 140 MB（单文件绿色版，托管于 GitHub Release）</div>
+            <div>
+                <span class="os-badge">Windows 10/11</span>
+                <span class="os-badge">64 位</span>
+                <span class="os-badge">单文件绿色版</span>
+            </div>
+            <div class="download-notice">
+                首次启动可能需要几秒钟解压时间，属正常现象。<br>
+                如 Windows 提示"未识别的应用"，请点击"更多信息" > "仍要运行"。<br>
+                软件内置 Tesseract OCR 引擎 + 本地词典，离线即可翻译常用词汇。
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="images/logo.png" alt="灵犀翻译">
+            <p>灵犀翻译 SmartLingo Translate 是一款专为英文软件界面设计的实时屏幕翻译工具。鼠标悬停即可翻译，支持普通/范围/截图三种模式，本地词典零延迟，在线翻译越用越流畅。</p>
+        </div>
+        <div class="footer-qr">
+            <img src="images/wechat-qr.png" alt="微信联系">
+            <p>微信联系作者</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 SmartLingo Translate. All rights reserved. | 灵犀翻译 v2.3
+    </div>
+</footer>
+
+</body>
+</html>
